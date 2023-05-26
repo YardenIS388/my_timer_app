@@ -19,14 +19,17 @@ import {
   Dimensions,
   TextInput,
   Pressable,
-  Image
+  Image,
+  Icon,
+
 } from 'react-native';
 import { useState } from 'react';
-import Header from './components/Header';
+import text from './text.json';
+import LinearGradient from 'react-native-linear-gradient';
 
 function App() {
 
-  const [inputs, setInputs] = useState({email: 'Type your email...', phone: 'Type your phone number...'});
+  const [inputs, setInputs] = useState({email: text.loginScreen.mailPlaceholder, phone: text.loginScreen.phonePlaceholder});
 
   const handleChange = (name, event) => {
     const inputName = name;
@@ -38,27 +41,43 @@ function App() {
     <SafeAreaView style={{flex:1}}>  
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
-                <Image style={styles.logo} source={require('./public/images/logo.png')}></Image>
-              <Text style={styles.headerText}> My Timer</Text>  
+                <Image style={styles.logo} source={require('./public/images/logoMyCar.png')}></Image>
             </View>
             <View style={styles.loginContainer}>
-                <Text style={styles.text}>Please type your email and phone number to log in to the timer app</Text>
-                <TextInput style={styles.input} 
-                           value={inputs.email}
-                           keyboardType='email-address'
-                           onChange={(e)=> handleChange('email', e)}> </TextInput>
-                <TextInput style={styles.input} 
+                <Text style={styles.text}>{text.loginScreen.loginHeader}</Text>
+                <View style={styles.inputContainer}>
+                    <Image style={styles.inputLogo} source={require('./public/images/callSquare.png')} ></Image>
+                    <TextInput style={styles.input} 
                            value={inputs.phone}
+                           keyboardType='email-address'
+                           onChange={(e)=> handleChange('phone', e)}> 
+                      </TextInput>
+
+                </View>
+                <View style={styles.inputContainer}>
+                    <Image style={styles.inputLogo} source={require('./public/images/messageSquare.png')} ></Image>
+                    <TextInput style={styles.input} 
+                           value={inputs.email}
                            keyboardType='number-pad'
-                           onChange={(e)=> handleChange('phone' , e)}> </TextInput>
+                           onChange={(e)=> handleChange('email' , e)}> </TextInput>
+
+                </View>
+                
+                
             </View>
             <View style={styles.buttonContainer}>
               <View>
-                <Text style={styles.buttonText}> Need Help?</Text>
-                <Text style={styles.buttonSupport}> contact support </Text>
+                <Text style={styles.buttonText}> {text.loginScreen.needHelp}</Text>
+                <Text style={styles.buttonSupport}> {text.loginScreen.contactUs}</Text>
               </View>
               <Pressable style={styles.button}> 
-                  <Image style={styles.arrow} source={require('./public/images/login-button-arrow.png')}></Image>
+                  <LinearGradient  colors={['#E29A56', '#E16A53', '#D8525A']}
+                                   start={{ x: 0.5, y: 1.0 }}
+                                   end={{ x: 1.0, y: 1.0 }}
+                                   locations={[1.0, 0.8, 0.0]}
+                                   style={styles.gradient}>
+                       <Image style={styles.arrow} source={require('./public/images/login-button-arrow.png')}></Image>
+                  </LinearGradient> 
               </Pressable>
             </View>
         </View>
@@ -76,33 +95,36 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor:"white",
-    height: windowHeight * 0.1,
+    height: windowHeight * 0.2,
     flexDirection:'row',
-    alignItems:'center',
-    elevation:2,
-    shadowColor:'#AA77FF',
-    shadowOffset: {width: 0, height:3},
+    alignItems:'flex-end',
+    justifyContent:'flex-end',
+    paddingRight:20,
     shadowOpacity:0.05,
     width:'100%',
+    paddingLeft:60,
   
   },
   loginContainer: {
-    height: windowHeight * 0.4,
     margin:20,
-    justifyContent:'center'
+    textAlign:'right',
   },
   text: {
     margin: 12,
-    fontSize:16
+    fontSize:18,
+    textAlign:'right'
   },
   input: {
-    height: 40,
+    height: 60,
     margin: 12,
+    textAlign:'right',
     borderWidth: 2,
     borderColor:'gray',
     borderRadius:5,
+    fontSize:18,
     color:'#000000',
-    padding:10
+    padding:10,
+    paddingRight:55
   },
   button: {
     width:80,
@@ -117,14 +139,22 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   buttonContainer: {
-  height: windowHeight * 0.3,
-  flexDirection:'row',
+  flexDirection:'row-reverse',
   alignItems: 'center',
-  justifyContent: 'space-around'
+  justifyContent: 'space-between',
+  margin:20
   },
   buttonText: {
-    fontSize:16,
-    margin:4
+    fontSize:18,
+    margin:4,
+    textAlign:'right'
+  },
+  gradient:{
+      height:'100%',
+      width:'100%',
+      borderRadius:100,
+      justifyContent:'center',
+      alignItems:'center',
   },
   headerText: {
     width:'100%',
@@ -133,20 +163,28 @@ const styles = StyleSheet.create({
     fontWeight:"700"
   },
   logo:{
-    width:30,
-    height:30,
-    padding:10,
-    position:'absolute',
-    left:20,
+    height:windowHeight * 0.1,
+    width:'90%',
+    resizeMode:'contain',
+    
   },
   arrow:{
     width:30,
     height:30,
-    transform: [{rotate: '180deg'}],
   },
   buttonSupport: {
-    color:'#AA77FF',
-    fontSize:16,
+    color:'#D8525A',
+    fontSize:18,
+  },
+  inputLogo:{
+    width:30,
+    height:30,
+    position:'absolute',
+    right:30,
+    top:'32%',
+  },
+  inputContainer:{
+    position:'relative',
   }
 });
 

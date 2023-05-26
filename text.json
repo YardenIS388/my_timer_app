@@ -1,0 +1,9 @@
+{
+    "loginScreen":{
+        "loginHeader": "להתחברות לאפליקציית אמדוקס אנא הזינו את מספר הטלפון והמייל שלכם",
+        "phonePlaceholder": "מספר טלפון",
+        "mailPlaceholder": "כתובת מייל",
+        "needHelp": "צריכים עזרה?",
+        "contactUs":"יצירת קשר עם התמיכה"
+    }
+}
