@@ -21,22 +21,15 @@ import {
   Pressable,
   Image,
   Icon,
-  ActivityIndicator,
-  Modal
 
 } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import text from './text.json';
 import LinearGradient from 'react-native-linear-gradient';
-import Header from './components/Header';
 
-function App() {
+function MyCarLogin() {
 
   const [inputs, setInputs] = useState({email: text.loginScreen.mailPlaceholder, phone: text.loginScreen.phonePlaceholder});
-  const [isAuthorized, setIsAuthorized] = useState(true);
-  const[isLoading, setIsLoading] = useState(false);
-  const [isTimerActive, setTimerActive] = useState(false);
-  const[timerCounter, setTimerCounter] = useState(0);
 
   const handleChange = (name, event) => {
     const inputName = name;
@@ -44,51 +37,8 @@ function App() {
     setInputs(values => ({...values, [inputName]: value}))
   }
 
-  const onPressLogin = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsAuthorized(true);
-    }, 2000);
-  }
-
-  const onPressTimerReset = () => {
-    setTimerCounter(0);
-    setTimerActive(false)
-  }
-
- useEffect(() => {
-    if(isTimerActive) {
-      const timer = setInterval(() => {
-        setTimerCounter(counter => counter + 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    }
- },[isTimerActive, timerCounter])
-
   return (
     <SafeAreaView style={{flex:1}}>  
-
-   
-      { isAuthorized ?
-       <View style={styles.rootContainer}> 
-              <Header/>
-              <View style={styles.timerContainer}>
-                  <Text style={styles.timerText}> 
-                    {timerCounter}
-                  </Text>
-              </View>
-              <View style={styles.timerButtonsContainer}>
-                <Pressable style={[styles.timerButton , isTimerActive ? {backgroundColor:'gray'} : {backgroundColor:'green'} ]} onPress={()=>setTimerActive((state)=>!state)}>
-                    <Text>{ isTimerActive ? "Pause" : "Start"}</Text>
-                </Pressable>
-                <Pressable style={styles.timerButton} onPress={onPressTimerReset}> 
-                  <Text> Reset</Text>
-                </Pressable>
-              </View>
-
-       </View>
-       :
         <View style={styles.rootContainer}>
             <View style={styles.headerContainer}>
                 <Image style={styles.logo} source={require('./public/images/logoMyCar.png')}></Image>
@@ -120,7 +70,7 @@ function App() {
                 <Text style={styles.buttonText}> {text.loginScreen.needHelp}</Text>
                 <Text style={styles.buttonSupport}> {text.loginScreen.contactUs}</Text>
               </View>
-              <Pressable style={styles.button} onPress={onPressLogin}> 
+              <Pressable style={styles.button}> 
                   <LinearGradient  colors={['#E29A56', '#E16A53', '#D8525A']}
                                    start={{ x: 0.5, y: 1.0 }}
                                    end={{ x: 1.0, y: 1.0 }}
@@ -131,24 +81,7 @@ function App() {
               </Pressable>
             </View>
         </View>
-      }
-     
-     
-
-
-        {/* { isLoading && <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size="large" />
-        </View>
-      } */}
-
-      <Modal animationType='slide' transparent visible={isLoading}>
-        <View style={styles.centeredView}>
-            <ActivityIndicator size="large" />
-        </View>
-       
-      </Modal>
     </SafeAreaView>
-   
   );
 }
 
@@ -156,21 +89,6 @@ function App() {
 const windowHeight = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    position:'absolute',
-    top:0,
-    left:0,
-    backgroundColor:'rgba(255,255,255,0.1',
-    height: windowHeight,
-    width:'100%'
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  },
   rootContainer: {
       flex:1,
       backgroundColor:'white'
@@ -267,41 +185,7 @@ const styles = StyleSheet.create({
   },
   inputContainer:{
     position:'relative',
-  },
-  centeredView: {
-    flex:1,
-    backgroundColor:'rgba(0,0,0,0.5)',
-    justifyContent: "center",
-    alignItems: "center",
-
-  },
-  timerContainer:{
-    height:windowHeight * 0.4,
-    margin:20,
-    borderRadius:10,
-    alignItems:'center',
-    justifyContent:'center',
-    backgroundColor:'#AA77FF',
-    borderRadius:15,
-    shadowColor:'#000',
-    shadowOffset: {width: 1, height:3},
-    shadowOpacity:0.1,
-  },
-  timerButtonsContainer:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    margin:25,
-  },
-  timerButton:{
-     borderWidth:1,
-     padding:15,
-     paddingHorizontal:40,
-     borderRadius:10
-  },
-  timerText:{
-    fontSize:60,
-  },
-
+  }
 });
 
-export default App;
+export default MyCarLogin;
